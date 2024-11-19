@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -8,14 +8,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { set, useForm } from "react-hook-form";
+
+import Stepper from "./Stepper";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Stepper from "./Stepper";
-import { useEffect } from "react";
 import { callToApi } from "../../lib/services/apiService";
 import { cartService } from "../../lib/services/cartService";
+import { useToast } from "../../hooks/use-toast";
 
 export const AddProductForm = ({
   warning,
@@ -30,6 +32,7 @@ export const AddProductForm = ({
   setCurrentId,
   setCartAction,
 }) => {
+  const { toast } = useToast();
   const formSchema = z.object({
     id: z
       .string({
@@ -83,6 +86,12 @@ export const AddProductForm = ({
         productId: productID,
         quantity: quantity,
       });
+      toast({
+        variant: "success",
+        className: "bg-blue-500 text-white ",
+        title: "Cantidades actualizadas",
+        description: `Ya está en tu carrito`,
+      });
       form.setValue("qy", "", { shouldValidate: false });
       setCartAction(null);
       setCurrentId("");
@@ -101,10 +110,22 @@ export const AddProductForm = ({
         product: DATA,
         quantity: quantity,
       });
+      toast({
+        variant: "success",
+        className: "bg-green-400 border-green-400 text-white",
+        title: "Producto agregado",
+        description: `Ya está en tu carrito`,
+      });
       setCartAction(null);
       setCurrentId("");
       form.reset();
     } catch (err) {
+      toast({
+        variant: "error",
+        className: "bg-red-500 text-white ",
+        title: "Error al agregar producto",
+        description: `No se pudo agregar el producto al carrito`,
+      });
       console.log(err);
     }
   }

@@ -1,3 +1,5 @@
+import { toast } from "../../hooks/use-toast";
+
 export const callToApi = async (options, setState, setError, url) => {
   const baseURL = "https://fakestoreapi.com";
   const urls = {
@@ -12,9 +14,12 @@ export const callToApi = async (options, setState, setError, url) => {
     DATA = await RES.json();
     setState && setState(DATA);
   } catch (err) {
-    console.error(err);
-    //setToast con el error
-
+    toast({
+      variant: "error",
+      className: "bg-red-500 text-white ",
+      title: "Error al agregar producto",
+      description: `No se pudo agregar el producto al carrito`,
+    });
     setError ?? setError(err);
   }
   return await DATA;

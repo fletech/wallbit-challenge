@@ -55,6 +55,7 @@ export const cartService = (setState = null, options = null) => {
     case "remove": {
       const cart = getCart();
       const newCart = cart.filter((item) => item.id !== options.productId);
+
       return saveCart(newCart);
     }
 

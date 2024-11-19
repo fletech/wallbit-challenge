@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MinusIcon, PlusIcon } from "lucide-react";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { Toaster } from "@/components/ui/toaster";
 
 import { callToApi } from "./lib/services/apiService";
 import { cartService } from "./lib/services/cartService";
 import { AddProductForm } from "./components/custom/AddProductForm";
-
 import { Headline } from "./components/custom/Headline";
 import { ProductCard } from "./components/custom/ProductCard";
 import { Brief } from "./components/custom/Brief";
+import { useToast } from "./hooks/use-toast";
 
 function App() {
+  const { toast } = useToast();
+
   const [cart, setCart] = useState([]);
   const [cartAction, setCartAction] = useState(null);
   const [error, setError] = useState(null);
@@ -57,15 +59,28 @@ function App() {
 
   const onDelete = (id) => {
     cartService(setCart, { action: "remove", productId: id });
+    toast({
+      variant: "error",
+      className: "bg-red-500 text-white ",
+      title: "Producto eliminado",
+      description: `Ya no está en el carrito`,
+    });
   };
 
   const onClear = () => {
     cartService(setCart, { action: "clear" });
+    toast({
+      variant: "error",
+      className: "bg-red-500 text-white ",
+      title: "Carrito vacío",
+      description: `Ya no tiene productos agregados`,
+    });
   };
 
   return (
     <div className="w-screen min-h-screen flex flex-col justify-start items-center p-8 ">
       <div className="p-8 min-w-[75%] rounded-xl">
+        <Toaster />
         <Headline
           hierarchy="secondary"
           cn={
