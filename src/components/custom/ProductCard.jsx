@@ -30,7 +30,6 @@ export const ProductCard = ({ item, onQuantityChange, onDelete }) => {
           >
             Delete
           </Button>
-          {/* <small className="text-red-500">{item.price}</small> */}
         </div>
         <Stepper value={item.quantity} onChange={onQuantityChange} />
 

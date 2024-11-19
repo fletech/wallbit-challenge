@@ -194,7 +194,7 @@ export const AddProductForm = ({
         </div>
 
         <Button variant="" type="submit">
-          {cartAction == "Update" ? "Actualizar" : "Agregar"}
+          {cartAction == "Update" ? "+ Actualizar" : "+ Agregar"}
         </Button>
       </form>
     </Form>

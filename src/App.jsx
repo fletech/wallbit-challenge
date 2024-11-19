@@ -121,7 +121,7 @@ function App() {
           {cart.length == 0 ? (
             <CardContent className="pt-4">
               <small className="text-gray-800 ">
-                No hay productos en tu carrito, agregá uno para comenzar.
+                No hay productos cargados, agregá uno para comenzar.
               </small>
             </CardContent>
           ) : (
