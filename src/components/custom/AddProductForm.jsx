@@ -159,7 +159,7 @@ export const AddProductForm = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex gap-4"
       >
-        <div className="flex gap-4 w-full">
+        <div className="flex md:items-end gap-4 w-full md:flex-row flex-col">
           <FormField
             control={form.control}
             name="qy"
@@ -212,11 +212,11 @@ export const AddProductForm = ({
               </FormItem>
             )}
           />
-        </div>
 
-        <Button variant="" type="submit">
-          {cartAction == "Update" ? "+ Actualizar" : "+ Agregar"}
-        </Button>
+          <Button variant="" type="submit">
+            {cartAction == "Update" ? "+ Actualizar" : "+ Agregar"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
