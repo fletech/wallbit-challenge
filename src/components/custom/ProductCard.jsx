@@ -19,14 +19,17 @@ export const ProductCard = ({ item, onQuantityChange, onDelete }) => {
             className="w-32 h-32 object-fill"
           />
         </div>
-        <div className="w-full max-w-[300px]">
+        <div className="flex flex-col w-full max-w-[300px]">
+          <small className="mb-4 text-white font-normal text-[12px] bg-black w-max px-3 py-1 rounded-full ">
+            ID {item.id}
+          </small>
           <p className="mb-4 font-extrabold uppercase text-gray-800 w-auto ">
             {item.title}
           </p>
           <Button
             variant="outline"
             onClick={() => onDelete(item.id)}
-            className="border-[1px] border-red-400 text-red-400 hover:bg-red-500 hover:text-white p-2 text-sm "
+            className="w-min border-[1px] border-red-400 text-red-400 hover:bg-red-500 hover:text-white py-2 px-4 text-sm "
           >
             Delete
           </Button>
