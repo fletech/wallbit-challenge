@@ -67,16 +67,16 @@ function App() {
     <div className="w-screen min-h-screen flex flex-col justify-start items-center p-8 ">
       <div className="p-8 min-w-[75%] rounded-xl">
         <Headline
-          hierarchy="main"
+          hierarchy="secondary"
           cn={
-            "inline-block border-2 border-black rounded-lg p-2 px-6 mb-4 w-fit-content"
+            "inline-block border-2 border-black rounded-lg p-2 px-6 mb-4 w-fit-content "
           }
         >
           Tienda el topo
         </Headline>
         <Card className="w-auto flex flex-col  justify-start h-auto border-0 rounded-md">
           <CardHeader className="space-y-2 ">
-            <Headline hierarchy="secondary">Add a product</Headline>
+            <Headline hierarchy="secondary">Agregar un producto</Headline>
           </CardHeader>
           <CardContent>
             <AddProductForm
@@ -101,8 +101,8 @@ function App() {
         <Card className="w-auto flex flex-col  justify-start h-auto border-0 mt-4  rounded-md ">
           <CardHeader className=" border-b rounded-b-md">
             <div className="w-full flex items-center justify-between gap-8 ">
-              <Headline hierarchy="secondary" className="inline-block ">
-                Cart
+              <Headline hierarchy="secondary" className="inline-block w-max">
+                Tu carrito
               </Headline>
               {cart.length != 0 && (
                 <>
@@ -112,16 +112,16 @@ function App() {
                     onClick={onClear}
                     className="w-fit bg-red-500 hover:bg-red-600"
                   >
-                    Clear
+                    Limpiar carrito
                   </Button>
                 </>
               )}
             </div>
           </CardHeader>
           {cart.length == 0 ? (
-            <CardContent>
-              <small className="text-gray-800">
-                Your cart is empty, may you adding a product by its ID
+            <CardContent className="pt-4">
+              <small className="text-gray-800 ">
+                No hay productos en tu carrito, agregá uno para comenzar.
               </small>
             </CardContent>
           ) : (
@@ -146,15 +146,15 @@ function App() {
               </div>
             </CardContent>
           )}
-          <CardFooter>
-            <div className="flex items-center justify-center w-full mt-6">
-              {cart.length != 0 && (
+          {cart.length != 0 && (
+            <CardFooter>
+              <div className="flex items-center justify-center w-full mt-6">
                 <small className="text-center text-gray-600">
-                  Cart saved on {cartBrief.timeStamp}
+                  Carrito guardado el {cartBrief.timeStamp}
                 </small>
-              )}
-            </div>
-          </CardFooter>
+              </div>
+            </CardFooter>
+          )}
         </Card>
       </div>
     </div>

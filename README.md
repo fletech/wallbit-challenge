@@ -15,5 +15,14 @@
 
 ```bash
 npm install
-
 ```
+
+## Ejecución del Proyecto
+
+Para iniciar el proyecto en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+Abre http://localhost:5173 en tu navegador para ver la aplicación.

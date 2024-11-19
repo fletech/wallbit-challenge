@@ -36,14 +36,14 @@ export const AddProductForm = ({
         required_error: "required field",
         invalid_type_error: "Product ID is required",
       })
-      .min(1, "Product ID is required")
+      .min(1, "El ID de producto es requerido")
       .transform(Number)
       .refine(
         (val) => !isNaN(val) && val <= products.length,
-        `Product ID not found`
+        "ID de Producto no válido"
       ),
 
-    qy: z.number().int().min(1, "Quantity must be greater than 0"),
+    qy: z.number().int().min(1, "Cantidad debe ser mayor a 0"),
   });
 
   const form = useForm({
@@ -117,7 +117,7 @@ export const AddProductForm = ({
         if (product.id == currentId) {
           setCartAction(`Update`);
           setWarning(
-            "This product is already in your cart, this quantity will be added"
+            "Este producto ya está cargago en tu carrito, esta cantidad se sumará"
           );
           return;
         }
@@ -144,7 +144,7 @@ export const AddProductForm = ({
             name="qy"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Quantity</FormLabel>
+                <FormLabel>Cantidad</FormLabel>
                 <FormControl className="flex">
                   <Stepper
                     value={Number(field.value)}
@@ -167,7 +167,7 @@ export const AddProductForm = ({
             name="id"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Product ID</FormLabel>
+                <FormLabel>ID de Producto</FormLabel>
                 <FormControl>
                   <Input
                     value={currentId}
@@ -194,7 +194,7 @@ export const AddProductForm = ({
         </div>
 
         <Button variant="" type="submit">
-          {cartAction || "Add"}
+          {cartAction == "Update" ? "Actualizar" : "Agregar"}
         </Button>
       </form>
     </Form>

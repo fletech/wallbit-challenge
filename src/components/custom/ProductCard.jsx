@@ -10,7 +10,7 @@ import Stepper from "./Stepper";
 
 export const ProductCard = ({ item, onQuantityChange, onDelete }) => {
   return (
-    <Card className="w-full flex items-center  justify-start h-auto border-0 shadow-none border-b-[1px] ">
+    <Card className="w-full flex items-center  justify-start h-auto border-0 shadow-none border-b-[1px]  ">
       <CardContent className="flex  gap-6 items-center w-full py-6 px-12 justify-between">
         <div className="w-auto items-center h-auto justify-between">
           <img
