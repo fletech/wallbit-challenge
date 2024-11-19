@@ -13,11 +13,19 @@ import { cartService } from "./lib/services/cartService";
 import { AddProductForm } from "./components/custom/AddProductForm";
 
 import { Headline } from "./components/custom/Headline";
+import { ProductCard } from "./components/custom/ProductCard";
+import { Brief } from "./components/custom/Brief";
 
 function App() {
   const [cart, setCart] = useState([]);
-  const [error, setError] = useState(null);
   const [cartAction, setCartAction] = useState(null);
+  const [error, setError] = useState(null);
+  const [cartBrief, setCartBrief] = useState({
+    totalItems: 0,
+    totalPrice: 0,
+    timeStamp: 0,
+  });
+
   const [warning, setWarning] = useState(null);
   const [products, setProducts] = useState([]);
   const [currentId, setCurrentId] = useState("");
@@ -29,6 +37,23 @@ function App() {
       setCart(savedCart);
     }
   }, []);
+
+  useEffect(() => {
+    let totalItems = 0;
+    let totalPrice = 0;
+    cart.forEach((item) => {
+      totalItems += item.quantity;
+      totalPrice += item.price * item.quantity;
+    });
+
+    const timeStampLS = localStorage.getItem("cartTimestamp");
+    const timestamp = new Date(timeStampLS).toLocaleDateString("es");
+    setCartBrief({
+      totalItems,
+      totalPrice,
+      timeStamp: timestamp,
+    });
+  }, [cart]);
 
   const onDelete = (id) => {
     cartService(setCart, { action: "remove", productId: id });
@@ -47,7 +72,7 @@ function App() {
             "inline-block border-2 border-black rounded-lg p-2 px-6 mb-4 w-fit-content"
           }
         >
-          {"{GuessID App}"}
+          Tienda el topo
         </Headline>
         <Card className="w-auto flex flex-col  justify-start h-auto border-0 rounded-md">
           <CardHeader className="space-y-2 ">
@@ -74,8 +99,24 @@ function App() {
         </Card>
         {/* CART */}
         <Card className="w-auto flex flex-col  justify-start h-auto border-0 mt-4  rounded-md ">
-          <CardHeader className="space-y-2 ">
-            <Headline hierarchy="secondary">Cart</Headline>
+          <CardHeader className=" border-b rounded-b-md">
+            <div className="w-full flex items-center justify-between gap-8 ">
+              <Headline hierarchy="secondary" className="inline-block ">
+                Cart
+              </Headline>
+              {cart.length != 0 && (
+                <>
+                  <Brief briefData={cartBrief} />
+
+                  <Button
+                    onClick={onClear}
+                    className="w-fit bg-red-500 hover:bg-red-600"
+                  >
+                    Clear
+                  </Button>
+                </>
+              )}
+            </div>
           </CardHeader>
           {cart.length == 0 ? (
             <CardContent>
@@ -88,74 +129,32 @@ function App() {
               <div className="flex flex-col gap-4 ">
                 {cart.map((item) => {
                   return (
-                    <Card
+                    <ProductCard
+                      item={item}
                       key={item.id}
-                      className="w-auto flex flex-col  justify-start h-auto border-0 shadow-none border-b-[1px] "
-                    >
-                      <CardHeader className="space-y-2 ">
-                        <Headline hierarchy="secondary">{item.title}</Headline>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex gap-4">
-                          <div className="flex flex-col gap-4">
-                            <img
-                              src={item.image}
-                              alt={item.title}
-                              className="w-32 h-32"
-                            />
-                            <small className="text-red-500">{item.price}</small>
-                          </div>
-                          <div className="flex gap-4">
-                            <div className="flex gap-4">
-                              <Button
-                                className="bg-red-500"
-                                onClick={() => onDelete(item.id)}
-                              >
-                                Delete
-                              </Button>
-                              <small>Quantity: {item.quantity}</small>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                className="h-auto w-fit-content bg-black text-white rounded-full"
-                                onClick={() => {
-                                  form.setValue("id", String(item.id), {
-                                    shouldValidate: true,
-                                  });
-                                  form.setValue("qy", String(item.quantity), {
-                                    shouldValidate: true,
-                                  });
-                                }}
-                              >
-                                <PlusIcon className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                size="icon"
-                                className="h-auto w-fit-content bg-black text-white rounded-full"
-                                onClick={() => {
-                                  form.setValue("id", String(item.id), {
-                                    shouldValidate: true,
-                                  });
-                                  form.setValue("qy", String(item.quantity), {
-                                    shouldValidate: true,
-                                  });
-                                }}
-                              >
-                                <MinusIcon className="h-2 w-2" />
-                              </Button>
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                      onDelete={onDelete}
+                      onQuantityChange={(quantity) =>
+                        cartService(setCart, {
+                          action: "update",
+                          productId: item.id,
+                          quantity,
+                        })
+                      }
+                    />
                   );
                 })}
               </div>
             </CardContent>
           )}
+          <CardFooter>
+            <div className="flex items-center justify-center w-full mt-6">
+              {cart.length != 0 && (
+                <small className="text-center text-gray-600">
+                  Cart saved on {cartBrief.timeStamp}
+                </small>
+              )}
+            </div>
+          </CardFooter>
         </Card>
       </div>
     </div>

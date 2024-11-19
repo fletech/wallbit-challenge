@@ -31,7 +31,7 @@ export const cartService = (setState = null, options = null) => {
 
   if (!options) {
     const existingCart = getCart();
-    console.log(existingCart);
+
     if (existingCart) {
       setState?.(existingCart);
     }
@@ -75,6 +75,9 @@ export const cartService = (setState = null, options = null) => {
       localStorage.removeItem(cartTimestampID);
       setState?.([]);
       return [];
+    }
+    case "getTimestamp": {
+      return getTimestamp();
     }
 
     default:

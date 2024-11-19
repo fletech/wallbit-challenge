@@ -43,29 +43,21 @@ export const AddProductForm = ({
         `Product ID not found`
       ),
 
-    qy: z
-      .string()
-      .regex(/^\d+$/)
-      .refine((val) => {
-        const num = Number(val);
-
-        return num >= 1;
-      }, "Must be greater than 0")
-      .transform(Number),
+    qy: z.number().int().min(1, "Quantity must be greater than 0"),
   });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       id: "",
-      qy: "",
+      qy: 1,
     },
     mode: "onChange",
   });
 
   const values = form.getValues();
-  console.log(cart);
   const product = cart?.find((item) => item.id == currentId);
+
   const handleIdChange = (e) => {
     const value = e.target.value;
 
@@ -154,7 +146,13 @@ export const AddProductForm = ({
               <FormItem>
                 <FormLabel>Quantity</FormLabel>
                 <FormControl className="flex">
-                  <Stepper form={form} field={field} productAdded={product} />
+                  <Stepper
+                    value={Number(field.value)}
+                    onChange={(val) =>
+                      form.setValue("qy", val, { shouldValidate: true })
+                    }
+                    isForm={true}
+                  />
                 </FormControl>
                 <div className="absolute">
                   <FormDescription></FormDescription>
