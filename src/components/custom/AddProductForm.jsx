@@ -198,7 +198,10 @@ export const AddProductForm = ({
                     inputMode="numeric"
                     pattern="\d*"
                     className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                    placeholder={`Insert a product ID between 1 and ${products.length}`}
+                    placeholder={
+                      products &&
+                      `Insert a product ID between 1 and ${products?.length}`
+                    }
                     autoComplete="off"
                   />
                 </FormControl>

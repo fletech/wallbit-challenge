@@ -17,7 +17,7 @@ export const ProductCard = ({ item, onQuantityChange, onDelete }) => {
             <img
               src={item.image}
               alt={item.title}
-              className="w-32 h-32 object-fill"
+              className="w-auto object-contain h-24"
             />
           </div>
           <div className="flex flex-col w-full md:max-w-[400px]">
